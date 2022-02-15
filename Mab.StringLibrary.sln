@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mab.StringLibrary.Test", "Mab.StringLibrary.Test\Mab.StringLibrary.Test.csproj", "{E822D3C1-D0FE-4F8E-8339-7587ED05735A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mab.StringLibrary", "Mab.StringLibrary\Mab.StringLibrary.csproj", "{F3FDE13A-1A44-4F7D-BE38-2A9156D2BB2B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E822D3C1-D0FE-4F8E-8339-7587ED05735A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E822D3C1-D0FE-4F8E-8339-7587ED05735A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E822D3C1-D0FE-4F8E-8339-7587ED05735A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E822D3C1-D0FE-4F8E-8339-7587ED05735A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3FDE13A-1A44-4F7D-BE38-2A9156D2BB2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3FDE13A-1A44-4F7D-BE38-2A9156D2BB2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3FDE13A-1A44-4F7D-BE38-2A9156D2BB2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3FDE13A-1A44-4F7D-BE38-2A9156D2BB2B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {327243DD-469F-4E0E-8D60-0E21390DF842}
+	EndGlobalSection
+EndGlobal
