@@ -9,7 +9,7 @@ namespace Mab.StringLibrary
         public const string Space = " ";
         public const char SpaceChar = ' ';
         public const int DefaultStringMinLength = 4;
-        public const int DefaultStringMaxLength = 35;
+        public const int DefaultStringMaxLength = 16;
 
         public const char DefaultStartChar = 'a';
         public const char DefaultEndChar = 'z';
