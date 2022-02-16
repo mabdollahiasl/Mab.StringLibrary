@@ -20,7 +20,8 @@ It generates random string based on given characters.
 
 It's encode and decode string to long and vise versa.
 Main usage of this class is to make shorten URLs.
- the Class has the option to change the character list for decode and encode.
+the Class has the option to change the character list for decode and encode.
+ 
  **Sample Code:**
 
     long number = 54662144;
