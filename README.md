@@ -32,6 +32,7 @@ Main usage of this class is to make shorten URLs.
 ## CalculateSimilarity extension function:
 
 It compares a string with target and return a number between 0 and 1 based on their similarity. 
+
 **Sample Code:**
 
     string result="this is test";
