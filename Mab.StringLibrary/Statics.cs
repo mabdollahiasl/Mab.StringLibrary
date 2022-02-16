@@ -21,7 +21,7 @@ namespace Mab.StringLibrary
         public const char LastDigit = '9';
 
 
-        public static char[] GetCharRange(char start,char end, params char[]? exceptions)
+        public static char[] GetCharRange(char start,char end, params char[] exceptions)
         {
             List<char> result = new List<char>();
             for (char curChar = start; curChar <= end; curChar++)

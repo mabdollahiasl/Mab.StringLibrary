@@ -75,7 +75,7 @@ namespace Mab.StringLibrary
                 builder.Append(Statics.SpaceChar);
             }
 
-            return builder.ToString()[..sentenceLen];
+            return builder.ToString().Substring(0,sentenceLen);
         }
     }
 }
