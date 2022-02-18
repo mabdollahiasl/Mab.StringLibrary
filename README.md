@@ -2,6 +2,8 @@
 
 The library add some functionality to .net string class.
 
+[![NuGet version](https://badge.fury.io/nu/Mab.StringLibrary.svg)](https://badge.fury.io/nu/Mab.StringLibrary)
+
 ## RandomString Class:
 
 It generates random string based on given characters.  
