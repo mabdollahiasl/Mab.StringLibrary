@@ -65,7 +65,7 @@ namespace Mab.StringLibrary
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static string RemoveDoublicateSpaces(this string source)
+        public static string RemoveDuplicateSpaces(this string source)
         {
             if(string.IsNullOrEmpty( source))
             {

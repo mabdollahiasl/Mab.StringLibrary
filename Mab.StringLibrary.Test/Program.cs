@@ -3,7 +3,7 @@ using Mab.StringLibrary;
 using System.Diagnostics;
 
 
-Console.WriteLine("Remove doublicate space: " + "this  is         text!".RemoveDoublicateSpaces());
+Console.WriteLine("Remove doublicate space: " + "this  is         text!".RemoveDuplicateSpaces());
 
 
 RandomString randomString = new();
