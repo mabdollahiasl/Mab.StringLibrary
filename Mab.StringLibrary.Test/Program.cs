@@ -2,6 +2,10 @@
 using Mab.StringLibrary;
 using System.Diagnostics;
 
+
+Console.WriteLine("Remove doublicate space: " + "this  is         text!".RemoveDoublicateSpaces());
+
+
 RandomString randomString = new();
 
 

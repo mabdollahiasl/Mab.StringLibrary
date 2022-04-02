@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace Mab.StringLibrary
 {
@@ -59,6 +60,33 @@ namespace Mab.StringLibrary
             double stepsToSame = Levenshtein(source, target);
             return (1.0 - (stepsToSame / (double)Math.Max(source.Length, target.Length)));
         }
-
+        /// <summary>
+        /// Convert doublicate spaces to just one space
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static string RemoveDoublicateSpaces(this string source)
+        {
+            if(string.IsNullOrEmpty( source))
+            {
+                return source;
+            }
+            StringBuilder result = new StringBuilder();
+            bool foundSpace = false;
+            foreach (var item in source)
+            {
+                if (item == Statics.SpaceChar && !foundSpace)
+                {
+                    foundSpace = true;
+                    result.Append(item);
+                }
+                else if (item != Statics.SpaceChar)
+                {
+                    foundSpace = false;
+                    result.Append(item);
+                }
+            }
+            return result.ToString();
+        }
     }
 }

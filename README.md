@@ -1,3 +1,4 @@
+
 ## Mab.StringLibrary
 
 The library add some functionality to .net string class.
@@ -41,3 +42,8 @@ It compares a string with target and return a number between 0 and 1 based on th
     string result="this is test";
     double similarity=result.CalculateSimilarity("tihs is text");
     //similarity is set to 0.75
+
+## Remove duplicate space extension function:
+Convert duplicate space to one space: 
+
+    Console.WriteLine("Remove duplicate space: " + "this  is         text!".RemoveDuplicateSpaces());
