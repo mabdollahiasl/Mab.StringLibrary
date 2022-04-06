@@ -1,7 +1,15 @@
 ﻿
 using Mab.StringLibrary;
+using Mab.StringLibrary.Formula;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
+double y = -1 + 2 * -83 + -(-82 / -9) + +(8 * +2);
+
+FormulaParser parser = new FormulaParser("-1+2*-83+-(-82/ -9)+ (8 * +2)");
+string formated = parser.GetFormatedFormula();
+Console.WriteLine(formated);
+parser.GetStringParts();
 
 Console.WriteLine("Remove doublicate space: " + "this  is         text!".RemoveDuplicateSpaces());
 
@@ -16,7 +24,10 @@ Console.WriteLine();
 Console.WriteLine($"This is a random string: '{randomString.GetRandomString(35)}'");
 Console.WriteLine();
 
+////(?<!\*)((?<!(^|\())\*)
 
+////(?<![\*\/\+\-])((?<!(^|\())[\/\*\+\-])
+//Regex regex = new Regex(@"(?<operator>(((?<!(^|\())(\/|\*|\+|\-))(?!\+)))");
 
 
 StringCoder stringCoder = new StringCoder();

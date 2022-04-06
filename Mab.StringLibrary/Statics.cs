@@ -7,7 +7,10 @@ namespace Mab.StringLibrary
 {
     public static class Statics
     {
+       
+
         public const string Space = " ";
+
         public const char SpaceChar = ' ';
         public const int DefaultStringMinLength = 4;
         public const int DefaultStringMaxLength = 16;
