@@ -32,6 +32,49 @@ namespace Mab.StringLibrary.Formula
                 }
             }
         }
+        public int Precedence
+        {
+            get
+            {
+                switch (Part)
+                {
+                    case FormulaConstants.AddSymbol:
+                        return 1;
+                    case FormulaConstants.MinusSymbol:
+                        return 1;
+                    case FormulaConstants.PowerSymbol:
+                        return 3;
+                    case FormulaConstants.DivdeSymbol:
+                        return 2;
+                    case FormulaConstants.MutiplySymbol:
+                        return 2;
+                    default:
+                        return -1;
+                }
+            }
+        }
+        public NumberPart Do(NumberPart left, NumberPart right)
+        {
+            switch (Type)
+            {
+                case OperatorType.Add:
+                    return new NumberPart((right.Value + left.Value).ToString());
+                case OperatorType.Power:
+                    break;
+                case OperatorType.Multiply:
+                    return new NumberPart((right.Value * left.Value).ToString());
+                case OperatorType.Divide:
+                    return new NumberPart((right.Value / left.Value).ToString());
+                case OperatorType.Modulus:
+                    return new NumberPart((right.Value - left.Value).ToString());
+            }
+            throw new NotImplementedException();
+
+        }
+        public override string ToString()
+        {
+            return Part;
+        }
     }
     public enum OperatorType
     {

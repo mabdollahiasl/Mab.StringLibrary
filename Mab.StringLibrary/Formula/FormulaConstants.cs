@@ -22,7 +22,7 @@ namespace Mab.StringLibrary.Formula
         public const string RegexnumberGroupName = "number";
         public const string RegexOpratorGroupName = "oprator";
 
-        public const string OpenParenthesesRegex = @"(?<open>([+-]\())";
+        public const string OpenParenthesesRegex = @"(?<open>([+-]?\())";
         public const string CloseParenthesesRegex = @"(?<close>[\)])";
         public const string DesimalNumberRegex = @"(?<number>([+-]?((\d+(\.\d*)?)|(\.\d+))))";
         public const string FormatedOpratorRegex = @"(?<oprator>( [+*/-] ))";

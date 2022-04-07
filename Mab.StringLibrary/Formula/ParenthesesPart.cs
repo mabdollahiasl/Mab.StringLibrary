@@ -14,6 +14,12 @@ namespace Mab.StringLibrary.Formula
         public string Part { get; }
         public bool IsNegative { get => Part.StartsWith(FormulaConstants.MinusSymbol); }
         public bool IsOpen { get => Part.Last().ToString() == FormulaConstants.OpenSymbol; }
+        public bool IsClose { get => Part.Last().ToString() == FormulaConstants.CloseSymbol; }
+
+        public override string ToString()
+        {
+            return Part;
+        }
 
     }
 }

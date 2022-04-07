@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Linq;
+using Mab.StringLibrary.Formula.Exception;
 
 namespace Mab.StringLibrary.Formula
 {
@@ -52,15 +53,28 @@ namespace Mab.StringLibrary.Formula
             Regex regex = new Regex(FormulaConstants.FormulaRegex);
          
             Match match = regex.Match(formated);
+            StringBuilder matchedString = new StringBuilder();
            
             while (match.Success)
             {
                 var part = FormulaPartFactory.CreatePart(match);
-                parts.Add(part);    
-              
+                parts.Add(part);
+                matchedString.Append(match.Value);
                 match = match.NextMatch();
             }
+            if (matchedString.ToString() != formated)// has invalid chars
+            {
+                throw new FormulaParseException("invalid formula!", null);
+            }
+         
             return parts;
+        }
+        public decimal Calculate()
+        {
+            IEnumerable<IFormulaPart> parts = GetStringParts();
+            var postConverter = new PostfixConverter(parts);
+            postConverter.ConvertToPostFix();
+            return postConverter.ProcessPostfix();
         }
 
     }

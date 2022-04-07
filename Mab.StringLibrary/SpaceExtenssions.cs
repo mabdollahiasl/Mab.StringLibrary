@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 
 namespace Mab.StringLibrary
 {
@@ -46,7 +44,7 @@ namespace Mab.StringLibrary
             {
                 return source;
             }
-            return source.Replace(Statics.Space,string.Empty);
+            return source.Replace(Statics.Space, string.Empty);
         }
         /// <summary>
         /// Adds just one space to start of string
@@ -55,7 +53,7 @@ namespace Mab.StringLibrary
         /// <returns></returns>
         public static string AddOneSpaceToStart(this string source)
         {
-            if (string.IsNullOrEmpty(source))
+            if (source == null)
             {
                 return source;
             }
@@ -68,20 +66,20 @@ namespace Mab.StringLibrary
         /// <returns></returns>
         public static string AddOneSpaceToEnd(this string source)
         {
-            if (string.IsNullOrEmpty(source))
+            if (source == null)
             {
                 return source;
             }
-            return source.TrimEnd()+ Statics.Space;
+            return source.TrimEnd() + Statics.Space;
         }
         /// <summary>
         /// Adds just one space to both side of string
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static string AddOneSpaceToBathSide (this string source)
+        public static string AddOneSpaceToBathSide(this string source)
         {
-            if (string.IsNullOrEmpty(source))
+            if (source == null)
             {
                 return source;
             }

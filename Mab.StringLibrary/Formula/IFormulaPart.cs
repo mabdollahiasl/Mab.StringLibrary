@@ -8,4 +8,5 @@ namespace Mab.StringLibrary.Formula
     {
         string Part { get; }
     }
+   
 }
