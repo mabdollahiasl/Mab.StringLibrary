@@ -1,5 +1,9 @@
 using Mab.StringLibrary.Formula;
 using Mab.StringLibrary.Formula.Exception;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Xunit;
 
 namespace Mab.StringLibrary.UnitTest
@@ -9,7 +13,7 @@ namespace Mab.StringLibrary.UnitTest
         [Fact]
         public void One_Positive_Number()
         {
-            decimal number = 58;
+            double number = 58;
 
             FormulaParser parser = new(number.ToString());
             Assert.Equal(number, parser.Calculate());
@@ -17,7 +21,7 @@ namespace Mab.StringLibrary.UnitTest
         [Fact]
         public void One_Negative_Number()
         {
-            decimal number = -58;
+            double number = -58;
 
             FormulaParser parser = new(number.ToString());
             Assert.Equal(number, parser.Calculate());
@@ -26,7 +30,7 @@ namespace Mab.StringLibrary.UnitTest
         [Fact]
         public void One_Negative_Real_Number()
         {
-            decimal number = -58.545m;
+            double number = -58.545;
 
             FormulaParser parser = new(number.ToString());
             Assert.Equal(number, parser.Calculate());
@@ -34,7 +38,7 @@ namespace Mab.StringLibrary.UnitTest
         [Fact]
         public void One_Positive_Real_Number()
         {
-            decimal number = 58.545m;
+            double number = 58.545;
 
             FormulaParser parser = new(number.ToString());
             Assert.Equal(number, parser.Calculate());
@@ -45,14 +49,14 @@ namespace Mab.StringLibrary.UnitTest
             string number = "+58.545";
 
             FormulaParser parser = new(number);
-            Assert.Equal(decimal.Parse(number), parser.Calculate());
+            Assert.Equal(double.Parse(number), parser.Calculate());
         }
 
         [Fact]
         public void Simple_Formula()
         {
             //Parentheses
-            decimal number = -4 + 5m * 2m - 2;
+            double number = -4 + 5.0 * 2.0 - 2;
             string formula = "-4+5*2-2";
             FormulaParser parser = new(formula);
             Assert.Equal(number, parser.Calculate());
@@ -61,7 +65,7 @@ namespace Mab.StringLibrary.UnitTest
         public void Simple_Real_Formula()
         {
             //Parentheses
-            decimal number = -4.5m + 5.2m * 2m - 2.1m;
+            double number = -4.5 + 5.2 * 2.0 - 2.1;
             string formula = "-4.5+5.2*2-2.1";
             FormulaParser parser = new(formula);
             Assert.Equal(number, parser.Calculate());
@@ -70,17 +74,50 @@ namespace Mab.StringLibrary.UnitTest
         public void Parentheses_Real_Formula()
         {
             //Parentheses
-            decimal number = -4.5m + 5.2m * 2m - 2.1m * (8m / 999.2m) + ((3556m + 78m) / 5m);
+            double number = -4.5 + 5.2 * 2.0 - 2.1 * (8.0 / 999.2) + ((3556.0 + 78.0) / 5.0);
             string formula = "-4.5+5.2*2-2.1*(8/999.2)+((3556+78)/5)";
             FormulaParser parser = new(formula);
             Assert.Equal(number, parser.Calculate());
         }
+
+      
+
+        [Fact]
+        public void Parentheses_Real_Formula_UselessSpace()
+        {
+            //Parentheses
+            double number = -4.5 + 5.2 * 2.0 - 2.1 * (8.0 / 999.2) + ((3556 + 78.0) / 5.0);
+            string formula = "-  4.5   +   5.2*2  -  2.1  *  (8/999.2)+   (   (3556+  78)  /5   )";
+            FormulaParser parser = new(formula);
+            Assert.Equal(number, parser.Calculate());
+        }
+
         [Fact]
         public void Parentheses_Real_Number_Without_Zero_Decimal_Formula()
         {
             //Parentheses
-            decimal number = -4.5m + .2m * 2m - 2.0m * (8m / 999.2m) + ((3556m + 78m) / 5m);
+            double number = -4.5 + .2 * 2.0 - 2.0 * (8 / 999.2) + ((3556 + 78.0) / 5.0);
             string formula = "-4.5+.2*2-2.*(8/999.2)+((3556+78)/5)";
+            FormulaParser parser = new(formula);
+            Assert.Equal(number, parser.Calculate());
+        }
+
+        [Fact]
+        public void Parentheses_Real_Number_Power_Formula()
+        {
+            //Parentheses
+            double number = -4.5 + .2 * 2 - 2.0 * (8 / 999.2) + ((Math.Pow(35, 2.2) + 78.0) / 5);
+            string formula = "-4.5+.2*2-2.*(8/999.2)+((35^2.2+78)/5)";
+            FormulaParser parser = new(formula);
+            Assert.Equal(number, parser.Calculate());
+        }
+
+        [Fact]
+        public void Parentheses_Negative_Real_Number_Power_Formula()
+        {
+            //Parentheses
+            double number = -4.5 + .2 * 2 - 2.0 * -(8 / 999.2) + (-(Math.Pow(35, 2.2) + 78.0) / 5);
+            string formula = "-4.5+.2*2-2.*-(8/999.2)+(-(35^2.2+78)/5)";
             FormulaParser parser = new(formula);
             Assert.Equal(number, parser.Calculate());
         }
@@ -107,5 +144,46 @@ namespace Mab.StringLibrary.UnitTest
                 var res = parser.Calculate();
             });
         }
+        [Fact]
+        public void Parentheses_NotValidNumber1_Formula()
+        {
+            //Parentheses
+            Assert.Throws<FormulaParseException>(() =>
+            {
+                string formula = "((3556  +78  )  /  5      4)";
+                FormulaParser parser = new(formula);
+                var res = parser.Calculate();
+            });
+        }
+        [Fact]
+        public void Parentheses_NotValidNumber2_Formula()
+        {
+            //Parentheses
+            Assert.Throws<FormulaParseException>(() =>
+            {
+                string formula = "((3  556  +78  )  /  5)";
+                FormulaParser parser = new(formula);
+                var res = parser.Calculate();
+            });
+        }
+
+        [Fact]
+        public void Parentheses_Real_Formula_Variable()
+        {
+            double x = 58.0;
+            double xxx = 32.5;
+            double y_x = 22.2;
+
+            double number = x + 5.2 * xxx - 2.1 * (8.0 / 999.2) + ((y_x + 78.0) / 5.0);
+
+            string formula = "x + 5.2 * xxx - 2.1 * (8.0 / 999.2) + ((y_x + 78.0) / 5.0)";
+            FormulaParser parser = new(formula);
+            parser.Variables["x"] = x;
+            parser.Variables["xxx"] = xxx;
+            parser.Variables["y_x"] = y_x;
+
+            Assert.Equal(number, parser.Calculate());
+        }
+
     }
 }

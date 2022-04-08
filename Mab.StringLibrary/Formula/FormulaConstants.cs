@@ -13,24 +13,30 @@ namespace Mab.StringLibrary.Formula
         public const string PowerSymbol = "^";
         public const string OpenSymbol = "(";
         public const string CloseSymbol = ")";
-
+        public const string AllOpratorRegexRange = "[/*^+-]";
         private const string OrRegex = "|";
-        public const string OpratorRegex = @"(?<![/*+-])((?<!(^|\())[/*+-])";
+        public const string OpratorRegex = @"(?<!" + AllOpratorRegexRange + @")((?<!(^|\())" + AllOpratorRegexRange + ")";
 
         public const string RegexOpenGroupName = "open";
         public const string RegexCloseGroupName = "close";
-        public const string RegexnumberGroupName = "number";
+        public const string RegexNumberGroupName = "number";
         public const string RegexOpratorGroupName = "oprator";
+        public const string RegexVariableGroupName = "var";
 
         public const string OpenParenthesesRegex = @"(?<open>([+-]?\())";
         public const string CloseParenthesesRegex = @"(?<close>[\)])";
-        public const string DesimalNumberRegex = @"(?<number>([+-]?((\d+(\.\d*)?)|(\.\d+))))";
-        public const string FormatedOpratorRegex = @"(?<oprator>( [+*/-] ))";
+        public const string DecimalNumberRegex = @"(?<number>([+-]?((\d+(\.\d*)?)|(\.\d+))))";
+        public const string FormatedOpratorRegex = @"(?<oprator>(\s" + AllOpratorRegexRange + @"\s))";
+        public const string VariableRegex = @"(?<var>([-+]?[a-zA-Z_]+\d*))";
+
+        public const string UselessSpace = @"((?<!(\d|\.))\s+)|(\s+(?!(\d|\.)))";
 
 
         public const string FormulaRegex = OpenParenthesesRegex + OrRegex +
                                            CloseParenthesesRegex + OrRegex +
-                                           DesimalNumberRegex + OrRegex +
-                                           FormatedOpratorRegex;
+                                           DecimalNumberRegex + OrRegex +
+                                           FormatedOpratorRegex + OrRegex +
+                                           VariableRegex;
+        public const string NegativeOne = "-1";
     }
 }

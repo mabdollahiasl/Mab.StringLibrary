@@ -17,11 +17,19 @@ namespace Mab.StringLibrary.Formula
         public string FormulaText { get; }
         private string FormulaTextWithoutSpace { get; }
 
+        public Dictionary<string,double> Variables { get; }
 
         public FormulaParser(string formulaText)
         {
             FormulaText = formulaText;
-            FormulaTextWithoutSpace = FormulaText.RemoveSpaces();
+            FormulaTextWithoutSpace = RemoveUslessSpaces();
+            Variables = new Dictionary<string,double>();
+        }
+        private string RemoveUslessSpaces()
+        {
+            string withoutDoublicate=FormulaText.RemoveDuplicateSpaces();
+            withoutDoublicate=Regex.Replace(withoutDoublicate,FormulaConstants.UselessSpace,string.Empty);
+            return withoutDoublicate;
         }
         public string GetFormatedFormula()
         {
@@ -40,8 +48,6 @@ namespace Mab.StringLibrary.Formula
             }
             currentPart = FormulaTextWithoutSpace.Substring(position, FormulaTextWithoutSpace.Length - position);
             formated.Append(currentPart);
-
-
             return formated.ToString();
         }
         public IEnumerable<IFormulaPart> GetStringParts()
@@ -57,8 +63,8 @@ namespace Mab.StringLibrary.Formula
            
             while (match.Success)
             {
-                var part = FormulaPartFactory.CreatePart(match);
-                parts.Add(part);
+                var part = FormulaPartFactory.CreateParts(match);
+                parts.AddRange(part);
                 matchedString.Append(match.Value);
                 match = match.NextMatch();
             }
@@ -69,13 +75,25 @@ namespace Mab.StringLibrary.Formula
          
             return parts;
         }
-        public decimal Calculate()
+        public double Calculate()
         {
             IEnumerable<IFormulaPart> parts = GetStringParts();
+            UpdateVariableValues(parts);
             var postConverter = new PostfixConverter(parts);
             postConverter.ConvertToPostFix();
             return postConverter.ProcessPostfix();
         }
 
+        private void UpdateVariableValues(IEnumerable<IFormulaPart> parts)
+        {
+            foreach (NumberPart item in parts.Where(p => p is NumberPart))
+            {
+                
+                if(Variables.ContainsKey(item.VariableName))
+                {
+                    item.VariableValue = Variables[item.VariableName];
+                }
+            }
+        }
     }
 }

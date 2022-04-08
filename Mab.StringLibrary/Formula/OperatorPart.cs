@@ -60,7 +60,7 @@ namespace Mab.StringLibrary.Formula
                 case OperatorType.Add:
                     return new NumberPart((right.Value + left.Value).ToString());
                 case OperatorType.Power:
-                    break;
+                    return new NumberPart(Math.Pow((double)right.Value, (double)left.Value).ToString());
                 case OperatorType.Multiply:
                     return new NumberPart((right.Value * left.Value).ToString());
                 case OperatorType.Divide:

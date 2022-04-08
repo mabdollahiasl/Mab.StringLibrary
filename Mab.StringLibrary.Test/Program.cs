@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 double y = -1 + 2 * -83 + -(-82 / -9) + +(8 * +2);
 
-FormulaParser parser = new FormulaParser("-1 + 2 * -2 + (-2.0 / (3-8)) + (8 * +2)");
+FormulaParser parser = new FormulaParser("(1+5-(5+4+(4-5/2)))");
 string formated = parser.GetFormatedFormula();
 Console.WriteLine(formated);
 var result = parser.Calculate();

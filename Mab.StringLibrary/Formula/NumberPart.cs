@@ -10,9 +10,35 @@ namespace Mab.StringLibrary.Formula
         {
             Part = part;
         }
+        public NumberPart(string part,bool isVariable)
+        {
+            Part = part;
+            IsVariable = isVariable;
+        }
 
+        public string VariableName { 
+            get
+            {
+                if(Part.StartsWith(FormulaConstants.AddSymbol) ||
+                   Part.StartsWith(FormulaConstants.MinusSymbol))
+                {
+                    return Part.Substring(1);
+                }else
+                {
+                    return Part;
+                }
+            }
+        }
+        public double VariableValue { get; internal set; }
         public string Part { get; }
-        public decimal Value { get => decimal.Parse(Part); }
+        public bool IsVariable { get; }
+        public double Value
+        {
+            get
+            {
+                return IsVariable ? Part.StartsWith(FormulaConstants.MinusSymbol) ? -VariableValue : VariableValue : double.Parse(Part);
+            }
+        }
       
 
         public bool IsNegative

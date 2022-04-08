@@ -17,7 +17,7 @@ namespace Mab.StringLibrary.Formula
 		}
 
 
-		public decimal ProcessPostfix()
+		public double ProcessPostfix()
 		{
             try
             {
