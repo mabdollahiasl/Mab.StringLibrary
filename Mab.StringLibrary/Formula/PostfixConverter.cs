@@ -83,16 +83,10 @@ namespace Mab.StringLibrary.Formula
 				// until an ‘(‘ is encountered.
 				else if (c is ParenthesesPart && (c as ParenthesesPart).IsClose)
 				{
-					int insideParenthesesCount = 0;
 					while (!(Oprs.Peek() is ParenthesesPart && (Oprs.Peek() as ParenthesesPart).IsOpen))
 					{
-						insideParenthesesCount++;	
 						result.Add(Oprs.Pop());
 					}
-					if(insideParenthesesCount == 0)
-                    {
-						throw new FormulaParseException("( not found!", null);
-                    }
 					Oprs.Pop();//pop ‘(’
 				}
 

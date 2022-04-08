@@ -43,6 +43,16 @@ namespace Mab.StringLibrary.UnitTest
             FormulaParser parser = new(number.ToString());
             Assert.Equal(number, parser.Calculate());
         }
+
+        [Fact]
+        public void One_Positive_Real_Number_Parentheses()
+        {
+            double number = -(-58.545);
+
+            FormulaParser parser = new($"-(-58.545)");
+            Assert.Equal(number, parser.Calculate());
+        }
+
         [Fact]
         public void One_Explicit_Positive_Real_Number()
         {
