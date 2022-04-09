@@ -87,7 +87,16 @@ namespace Mab.StringLibrary.Formula
 					{
 						result.Add(Oprs.Pop());
 					}
-					Oprs.Pop();//pop ‘(’
+                   
+
+					if(!(Oprs.Count>0 && Oprs.Peek() is ParenthesesPart && (Oprs.Peek() as ParenthesesPart).IsOpen))
+                    {
+						throw new FormulaParseException();
+                    }
+                    else
+                    {
+						Oprs.Pop(); //pop ‘(’
+					}
 				}
 
 				//If an operator is scanned

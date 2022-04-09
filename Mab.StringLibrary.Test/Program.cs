@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 double y = -1 + 2 * -83 + -(-82 / -9) + +(8 * +2);
 
-FormulaParser parser = new("(1+5-(5+4+(4-5/2)))");
+FormulaParser parser = new("5+sin(82,tan(78+5)+5)+8+cos(8)");
 string formated = parser.GetFormatedFormula();
 Console.WriteLine(formated);
 var result = parser.Calculate();
