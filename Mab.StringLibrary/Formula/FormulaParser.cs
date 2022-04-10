@@ -4,29 +4,25 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Linq;
 using Mab.StringLibrary.Formula.Exception;
+using Mab.StringLibrary.Formula.Expressions;
 
 namespace Mab.StringLibrary.Formula
 {
-    public class FormulaParser
+    public delegate double CustomFunction(string functionName, double[] pars);
+    internal class FormulaParser
     {
-
-
-
-
-
         public string FormulaText { get; }
         private string FormulaTextWithoutSpace { get; }
 
         public Dictionary<string, double> Variables { get; }
-        private List<FunctionProcessor> Functions { get; }
-
-        public ParameterNode Node { get; set; }
-
-        public FormulaParser(string formulaText)
+        public CustomFunction FunctionValueResolver { get; }
+        public FormulaNode Node { get; set; }
+        public FormulaParser(string formulaText,CustomFunction functionValueResolver=null)
         {
             FormulaText = formulaText;
             FormulaTextWithoutSpace = RemoveUslessSpaces();
-            Functions = new List<FunctionProcessor>();
+            Variables = new Dictionary<string, double>();
+            this.FunctionValueResolver = functionValueResolver;
             Init();
         }
         private string RemoveUslessSpaces()
@@ -37,30 +33,30 @@ namespace Mab.StringLibrary.Formula
         }
         private void Init()
         {
-            Node = new ParameterNode(FormulaTextWithoutSpace);
+            Node = new FormulaNode(FormulaTextWithoutSpace);
             ParseFunctions(Node);
         }
-        public string GetFormatedFormula()
+        public string GetFormatedFormula(string formulaTextWithoutSpace)
         {
             int position = 0;
             string currentPart;
             StringBuilder formated = new StringBuilder();
             Regex regex = new Regex(FormulaConstants.OpratorRegex);
-            Match match = regex.Match(FormulaTextWithoutSpace);
+            Match match = regex.Match(formulaTextWithoutSpace);
 
             while (match.Success)
             {
-                currentPart = FormulaTextWithoutSpace.Substring(position, match.Index - position);
+                currentPart = formulaTextWithoutSpace.Substring(position, match.Index - position);
                 formated.Append(currentPart);
                 formated.Append(match.Value.AddOneSpaceToBathSide());
                 position = match.Index + match.Length;
                 match = match.NextMatch();
             }
-            currentPart = FormulaTextWithoutSpace.Substring(position, FormulaTextWithoutSpace.Length - position);
+            currentPart = formulaTextWithoutSpace.Substring(position, formulaTextWithoutSpace.Length - position);
             formated.Append(currentPart);
             return formated.ToString();
         }
-        private void ParseFunctions(ParameterNode root)
+        private void ParseFunctions(FormulaNode root)
         {
             string formula = root.Formula;
 
@@ -71,31 +67,31 @@ namespace Mab.StringLibrary.Formula
             int functionIndex = 0;
             while (match.Success)
             {
-                FunctionProcessor function = new FunctionProcessor(match);
-                function.ProcessFunction(formula);
+                FunctionParser function = new FunctionParser(match);
+                function.Parse(formula);
                 parameterizedFormula.Append(formula.Substring(start, match.Index - start));
                 parameterizedFormula.Append("{" + functionIndex + "}");
-                var experssionFunction = new FunctionNode(function.Function, function.FunctionName);
-                root.Parts.Add(experssionFunction);
-                foreach (var item in function.FunctionParts) //add function parameters to experssion tree
+                var experssionFunction = new FunctionNode(function.Experssion, function.Name);
+                root.ChildNodes.Add(experssionFunction);
+                foreach (var item in function.Parameters) //add function parameters to experssion tree
                 {
-                    var experssionPart = new ParameterNode(item);
-                    experssionFunction.Parts.Add(experssionPart);
+                    var experssionPart = new FormulaNode(item);
+                    experssionFunction.ChildNodes.Add(experssionPart);
                     ParseFunctions(experssionPart);
                 }
-                start = function.FunctionContentEndIndex + 1;//add 1 for ')'
+                start = function.ContentEndIndex + 1;//add 1 for ')'
                 functionIndex++;
-                match = regex.Match(formula, function.FunctionContentEndIndex);
+                match = regex.Match(formula, function.ContentEndIndex);
             }
 
             parameterizedFormula.Append(formula.Substring(start, formula.Length - start));// add reamin part of string
 
             root.ParameterizedFormat=parameterizedFormula.ToString();
         }
-        private IEnumerable<IFormulaPart> GetStringParts()
+        private IEnumerable<IFormulaPart> GetStringParts(string formulaWithoutSpace)
         {
             List<IFormulaPart> parts = new List<IFormulaPart>();
-            string formated = GetFormatedFormula();
+            string formated = GetFormatedFormula(formulaWithoutSpace);
 
             Regex regex = new Regex(FormulaConstants.FormulaRegex);
 
@@ -116,23 +112,61 @@ namespace Mab.StringLibrary.Formula
 
             return parts;
         }
-        public double Calculate()
+        private double Calculate(ExpressionNode node)
         {
-            IEnumerable<IFormulaPart> parts = GetStringParts();
+            foreach (var item in node.ChildNodes)
+            {
+                node.ParametersValues.Add(Calculate(item));
+            }
+            if (node is FormulaNode parameterNode)
+            {
+                parameterNode.UpdateCalculatedFormula();
+                parameterNode.Value = Calculate(parameterNode.CalculatedFormula);
+                return parameterNode.Value;
+            }
+            else if(node is FunctionNode functionNode)
+            {
+                functionNode.Value = CallFunction(functionNode.FunctionName, functionNode.ParametersValues);
+                return functionNode.Value;
+            }
+            throw new NotImplementedException();
+        }
+
+        private double Calculate(string calculatedFormula)
+        {
+            IEnumerable<IFormulaPart> parts = GetStringParts(calculatedFormula);
             UpdateVariableValues(parts);
             var postConverter = new PostfixConverter(parts);
             postConverter.ConvertToPostFix();
             return postConverter.ProcessPostfix();
         }
 
+        private double CallFunction(string functionName, List<double> parametersValues)
+        {
+            if (FunctionValueResolver == null)
+            {
+                throw new ArgumentNullException("functionValueResolver");
+            }
+            return FunctionValueResolver(functionName, parametersValues.ToArray());
+        }
+
+        public double Calculate()
+        {
+            Calculate(Node);
+            return Node.Value;
+        }
+
         private void UpdateVariableValues(IEnumerable<IFormulaPart> parts)
         {
-            foreach (NumberPart item in parts.Where(p => p is NumberPart))
+            foreach (NumberPart item in parts.Where(p => p is NumberPart && (p as NumberPart).IsVariable))
             {
 
                 if (Variables.ContainsKey(item.VariableName))
                 {
                     item.VariableValue = Variables[item.VariableName];
+                }else
+                {
+                    throw new FormulaParseException("variable not found:" + item.VariableName, null);
                 }
             }
         }

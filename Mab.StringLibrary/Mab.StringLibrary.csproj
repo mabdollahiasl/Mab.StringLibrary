@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -19,5 +19,8 @@
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
-
+	<ItemGroup>
+		<InternalsVisibleTo Include="Mab.StringLibrary.UnitTest" />
+		<InternalsVisibleTo Include="Mab.StringLibrary.Test" />
+	</ItemGroup>
 </Project>

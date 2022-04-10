@@ -4,13 +4,35 @@ using Mab.StringLibrary.Formula;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 
-double y = -1 + 2 * -83 + -(-82 / -9) + +(8 * +2);
+string formula1 = "-12+47+7-(35+ 2 - -(21*2))";
+double result1 = formula1.ParseAsFormula();
 
-FormulaParser parser = new("5+sin(82,tan(78+5)+5)+8+cos(8)");
-string formated = parser.GetFormatedFormula();
-Console.WriteLine(formated);
-var result = parser.Calculate();
 
+CustomFunction customFunction = (functionname, pars) =>
+{
+    if (functionname == "Avg")
+        return pars.Average(); //using System.Linq
+    else if (functionname == "Sum")
+        return pars.Sum();
+    else
+        return 0;
+};
+
+string formula2 = "-12+7-Avg(35, 2 + Sum(5^2,-4))";
+double result2 = formula2.ParseAsFormula(customFunction);
+
+string formula3 = "-12+7-(35+ x*y)+Avg(5,8)";
+
+Dictionary<string, double> vars = new() { { "x", 3 }, { "y", 4 } }; 
+
+double result3 = formula3.ParseAsFormula(vars, customFunction);
+
+Console.WriteLine("Expression Parser:");
+Console.WriteLine($"{formula1} = {result1}");
+Console.WriteLine($"{formula2} = {result2}");
+Console.WriteLine($"{formula3} = {result3}");
+
+Console.WriteLine();    
 
 Console.WriteLine("Remove doublicate space: " + "this  is         text!".RemoveDuplicateSpaces());
 
@@ -31,7 +53,7 @@ Console.WriteLine();
 //Regex regex = new Regex(@"(?<operator>(((?<!(^|\())(\/|\*|\+|\-))(?!\+)))");
 
 
-StringCoder stringCoder = new StringCoder();
+StringCoder stringCoder = new();
 long number = 54662144;
 string enCode = stringCoder.Encode(number);
 

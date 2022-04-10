@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Xunit;
 
 namespace Mab.StringLibrary.UnitTest
@@ -194,6 +195,123 @@ namespace Mab.StringLibrary.UnitTest
 
             Assert.Equal(number, parser.Calculate());
         }
+        [Fact]
+        public void CustomFunction_Simple_Real_Formula_Variable()
+        {
+            double x = 58.0;
+            double xxx = 32.5;
+            double y_x = 22.2;
+           
+            double number = x + 5.2 * xxx - 2.1 * (8.0 / 999.2) + Sum( 5, 8, 78.5 + 32 * (1 + 8) ) + ((y_x + 78.0) / 5.0);
 
+            string formula = "x + 5.2 * xxx - 2.1 * (8.0 / 999.2) + Sum(5,8,78.5 +32*(1+8)) + ((y_x + 78.0) / 5.0)";
+            FormulaParser parser = new(formula, SimpleFunction);
+            parser.Variables["x"] = x;
+            parser.Variables["xxx"] = xxx;
+            parser.Variables["y_x"] = y_x;
+
+            Assert.Equal(number, parser.Calculate());
+        }
+        [Fact]
+        public void CustomFunction_Nested_Real_Formula_Variable()
+        {
+            double x = 58.0;
+            double xxx = 32.5;
+            double y_x = 22.2;
+
+            double number = x + 5.2 * xxx - 2.1 * (8.0 / 999.2) + -Sum(5, Sum(8 + (4 - 1), 5) + 5, 78.5 + 32 * (1 + 8)) + ((y_x + 78.0) / 5.0);
+
+            string formula = "x + 5.2 * xxx - 2.1 * (8.0 / 999.2) + -Sum(5, Sum(8 + (4 - 1), 5)+5, 78.5 + 32 * (1 + 8)) + ((y_x + 78.0) / 5.0)";
+            FormulaParser parser = new(formula, SimpleFunction);
+            parser.Variables["x"] = x;
+            parser.Variables["xxx"] = xxx;
+            parser.Variables["y_x"] = y_x;
+
+            Assert.Equal(number, parser.Calculate());
+        }
+
+        [Fact]
+        public void CustomFunction_NotValid()
+        {
+            Assert.Throws<FormulaParseException>(() =>
+            {
+                string formula = "((3  556  +78  )  /  5 +Sum(78+4,Sum(7,77))";
+                FormulaParser parser = new(formula, SimpleFunction);
+                var res = parser.Calculate();
+            });
+        }
+        [Fact]
+        public void CustomFunction_SameAsVarName_Real_Formula_Variable()
+        {
+            double sum = 58.0;
+            double xxx = 32.5;
+            double y_x = 22.2;
+
+            double number = sum + 5.2 * xxx - 2.1 * (8.0 / 999.2) + -Sum(5, Sum(8 + (4 - 1), 5) + 5, 78.5 + 32 * (1 + 8)) + ((y_x + 78.0) / 5.0);
+
+            string formula = "Sum + 5.2 * xxx - 2.1 * (8.0 / 999.2) + -Sum(5, Sum(8 + (4 - 1), 5)+5, 78.5 + 32 * (1 + 8)) + ((y_x + 78.0) / 5.0)";
+            FormulaParser parser = new(formula, SimpleFunction);
+            parser.Variables["Sum"] = sum;
+            parser.Variables["xxx"] = xxx;
+            parser.Variables["y_x"] = y_x;
+
+            Assert.Equal(number, parser.Calculate());
+        }
+
+        [Fact]
+        public void Extenssion_Var_Functions()
+        {
+            double sum = 58.0;
+            double xxx = 32.5;
+            double y_x = 22.2;
+
+            double number = sum + 5.2 * xxx - 2.1 * (8.0 / 999.2) + -Sum(5, Sum(8 + (4 - 1), 5) + 5, 78.5 + 32 * (1 + 8)) + ((y_x + 78.0) / 5.0);
+
+            string formula = "Sum + 5.2 * xxx - 2.1 * (8.0 / 999.2) + -Sum(5, Sum(8 + (4 - 1), 5)+5, 78.5 + 32 * (1 + 8)) + ((y_x + 78.0) / 5.0)";
+            Dictionary<string, double> vars = new();
+            vars["Sum"] = sum;
+            vars["xxx"] = xxx;
+            vars["y_x"] = y_x;
+            var result = formula.ParseAsFormula(vars, SimpleFunction);
+            Assert.Equal(number, result);
+        }
+        [Fact]
+        public void Extenssion_Var()
+        {
+            double sum = 58.0;
+            double xxx = 32.5;
+            double y_x = 22.2;
+
+            double number = sum + 5.2 * xxx - 2.1 * (8.0 / 999.2)  +78.5 + 32 * (1 + 8) + ((y_x + 78.0) / 5.0);
+
+            string formula = "sum + 5.2 * xxx - 2.1 * (8.0 / 999.2)  +78.5 + 32 * (1 + 8) + ((y_x + 78.0) / 5.0)";
+            Dictionary<string, double> vars = new();
+            vars["sum"] = sum;
+            vars["xxx"] = xxx;
+            vars["y_x"] = y_x;
+            var result = formula.ParseAsFormula(vars);
+            Assert.Equal(number, result);
+        }
+
+        [Fact]
+        public void Extenssion_Func()
+        {
+          
+            double number = 10 * -Sum(5,4);
+
+            string formula = " 10 * -Sum(5,4)";
+          
+            var result = formula.ParseAsFormula(SimpleFunction);
+            Assert.Equal(number, result);
+        }
+
+        private double Sum(params double[] pars)
+        {
+            return SimpleFunction("Sum", pars);
+        }
+        private double SimpleFunction(string name,params double[] pars)
+        {
+            return pars.Sum();
+        }
     }
 }

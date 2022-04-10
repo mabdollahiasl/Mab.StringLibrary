@@ -13,7 +13,7 @@ namespace Mab.StringLibrary.Formula
         public const string PowerSymbol = "^";
         public const string OpenSymbol = "(";
         public const string CloseSymbol = ")";
-        public const char ParameterSymbol = ',';
+        public const string ParameterSymbol = ",";
 
         public const string AllOpratorRegexRange = "[/*^+-]";
         private const string OrRegex = "|";
@@ -30,7 +30,7 @@ namespace Mab.StringLibrary.Formula
         public const string DecimalNumberRegex = @"(?<number>([+-]?((\d+(\.\d*)?)|(\.\d+))))";
         public const string FormatedOpratorRegex = @"(?<oprator>(\s" + AllOpratorRegexRange + @"\s))";
         public const string VariableRegex = @"(?<var>([-+]?[a-zA-Z_]+\d*))";
-        public const string FunctionStartRegex = @"(?<funcstart>([a-zA_Z_]+\d*)\()";
+        public const string FunctionStartRegex = @"(?<funcstart>([a-zA-Z_]+\d*)\()";
 
         public const string UselessSpace = @"((?<!(\d|\.))\s+)|(\s+(?!(\d|\.)))";
 

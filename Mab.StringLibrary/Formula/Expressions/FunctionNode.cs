@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mab.StringLibrary.Formula
+namespace Mab.StringLibrary.Formula.Expressions
 {
-    internal class FunctionNode : ExperssionNode
+    internal class FunctionNode : ExpressionNode
     {
         public string FunctionName { get; }
         public FunctionNode(string formula,string functionName) : base(formula)
