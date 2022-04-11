@@ -2,9 +2,8 @@
 
 ## Mab.StringLibrary
 
-The library add some functionality to .net string class.
+Mab.StringLibrary is set of class for parsing expression and formula, generating random string, Number to string coder and decoder for url shorten and some other string extensions.
 
-[![NuGet version](https://badge.fury.io/nu/Mab.StringLibrary.svg)](https://badge.fury.io/nu/Mab.StringLibrary)
 
 ## Formula or Expression Parser:
 some extension string function to parse any formula or expression:
