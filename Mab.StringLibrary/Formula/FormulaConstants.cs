@@ -32,7 +32,7 @@ namespace Mab.StringLibrary.Formula
         public const string VariableRegex = @"(?<var>([-+]?[a-zA-Z_]+\d*))";
         public const string FunctionStartRegex = @"(?<funcstart>([a-zA-Z_]+\d*)\()";
 
-        public const string UselessSpace = @"((?<!(\d|\.))\s+)|(\s+(?!(\d|\.)))";
+        public const string UselessSpace = @"((?<!(\w|\.))\s+)|(\s+(?!(\w|\.)))";
 
 
         public const string FormulaRegex = OpenParenthesesRegex + OrRegex +

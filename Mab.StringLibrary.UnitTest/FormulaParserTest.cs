@@ -259,6 +259,36 @@ namespace Mab.StringLibrary.UnitTest
         }
 
         [Fact]
+        public void Extenssion_Var_Functions_Not_Valid()
+        {
+            Assert.Throws<FormulaParseException>(() =>
+            {
+                string formula = "((3  556  +78  )  /  5 +Su m(78+4,Sum(7,77))";
+                Dictionary<string, double> vars = new();
+                vars["Su"] = 0;
+                vars["m"] = 0;
+                var result = formula.ParseAsFormula(vars, SimpleFunction);
+            });
+
+        
+        }
+
+        [Fact]
+        public void Extenssion_Var_Functions_Not_Valid2()
+        {
+            Assert.Throws<FormulaParseException>(() =>
+            {
+                string formula = "((3  556  +78  )  ///  5 +Su m(78+4,Sum(7,77))";
+                Dictionary<string, double> vars = new();
+                vars["Su"] = 0;
+                vars["m"] = 0;
+                var result = formula.ParseAsFormula(vars, SimpleFunction);
+            });
+
+
+        }
+
+        [Fact]
         public void Extenssion_Var_Functions()
         {
             double sum = 58.0;

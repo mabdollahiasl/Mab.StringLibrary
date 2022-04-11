@@ -5,22 +5,21 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <AssemblyVersion>1.0.2</AssemblyVersion>
-    <FileVersion>1.0.2</FileVersion>
-    <Version>1.0.2</Version>
+    <AssemblyVersion>1.1.0</AssemblyVersion>
+    <FileVersion>1.1.0</FileVersion>
+    <Version>1.1.0</Version>
     <PackageProjectUrl>https://github.com/mabdollahiasl/Mab.StringLibrary</PackageProjectUrl>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageTags>string similarity, encode , decode</PackageTags>
+    <PackageReadmeFile>NugetReadme.md</PackageReadmeFile>
+    <PackageTags>string similarity,encode ,decode,url shorten,random string,expression parser,formula parser</PackageTags>
+    <Description>Mab.StringLibrary is set of class for parsing expression and formula, generating random string, Number to string coder and decoder for url shorten and some other string extensions</Description>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
 	<ItemGroup>
 		<InternalsVisibleTo Include="Mab.StringLibrary.UnitTest" />
-		<InternalsVisibleTo Include="Mab.StringLibrary.Test" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="NugetReadme.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	</ItemGroup>
 </Project>

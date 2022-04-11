@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Mab.StringLibrary.Formula
 {
-    public static class FormulaExtension
+    public static class FormulaExtensions
     {
         /// <summary>
         /// Parse a formula like ʻ5+(8*(5+2))ʼ to double
