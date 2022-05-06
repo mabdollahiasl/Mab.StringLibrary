@@ -7,7 +7,6 @@ using System.Text.RegularExpressions;
 string formula1 = "-12+47+7-(35+ 2 - -(21*2))";
 double result1 = formula1.ParseAsFormula();
 
-
 CustomFunction customFunction = (functionname, pars) =>
 {
     if (functionname == "Avg")

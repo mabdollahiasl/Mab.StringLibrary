@@ -11,6 +11,7 @@ namespace Mab.StringLibrary.UnitTest
 {
     public class FormulaParserTest
     {
+
         [Fact]
         public void One_Positive_Number()
         {
@@ -53,7 +54,16 @@ namespace Mab.StringLibrary.UnitTest
             FormulaParser parser = new($"-(-58.545)");
             Assert.Equal(number, parser.Calculate());
         }
+        [Fact]
+        public void One_Var()
+        {
+            double number = 58;
 
+            string numFormula = "n";
+            double value = numFormula.ParseAsFormula(new Dictionary<string, double> { { "n", number } });
+
+            Assert.Equal(value, number);
+        }
         [Fact]
         public void One_Explicit_Positive_Real_Number()
         {
