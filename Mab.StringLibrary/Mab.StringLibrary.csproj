@@ -5,9 +5,9 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <AssemblyVersion>1.1.0</AssemblyVersion>
-    <FileVersion>1.1.0</FileVersion>
-    <Version>1.1.0</Version>
+    <AssemblyVersion>1.2.0</AssemblyVersion>
+    <FileVersion>1.2.0</FileVersion>
+    <Version>1.2.0</Version>
     <PackageProjectUrl>https://github.com/mabdollahiasl/Mab.StringLibrary</PackageProjectUrl>
     <PackageReadmeFile>NugetReadme.md</PackageReadmeFile>
     <PackageTags>string similarity,encode ,decode,url shorten,random string,expression parser,formula parser</PackageTags>
