@@ -36,7 +36,7 @@ namespace Mab.StringLibrary
         public string GetRandomString(int len = 35)
         {
             StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < len - 1; i++)
+            for (int i = 0; i < len; i++)
             {
                 char current =_usableChar[_randomGenerator.Next(0, _usableChar.Length)];
                 builder.Append(current);

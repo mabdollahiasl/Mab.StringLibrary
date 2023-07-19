@@ -53,13 +53,13 @@ Console.WriteLine();
 
 
 StringCoder stringCoder = new();
-long number = 54662144;
+long number = 999_999_999_999_999;
 string enCode = stringCoder.Encode(number);
 
 Console.WriteLine($"Coded value of '{number}' is '{enCode}'");
 
 Console.WriteLine();
-Console.WriteLine($"Decoded value of '{enCode}' is '{stringCoder.Decode("a3U1")}'");//214325
+Console.WriteLine($"Decoded value of '{enCode}' is '{stringCoder.Decode(enCode)}'");//214325
 
 
 string big = randomString.GetRandomString(50);

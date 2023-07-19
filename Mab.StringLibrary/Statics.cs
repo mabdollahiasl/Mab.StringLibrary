@@ -45,6 +45,10 @@ namespace Mab.StringLibrary
         {
             return GetCharRange(FirstLowerCase, LastLowerCase);
         }
+        public static char[] GetAllDigits()
+        {
+            return GetCharRange(FirstDigit, LastDigit);
+        }
         public static char[] GetAllUpperCase()
         {
             return GetCharRange(FirstUpperCase, LastUpperCase);
